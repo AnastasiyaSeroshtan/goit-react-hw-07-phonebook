@@ -1,23 +1,24 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit";
+import { persistReducer } from "redux-persist";
+import storage from 'redux-persist/lib/storage';
 
-const contactsInitialState = [
-    {id: 'id-1', name: 'Rosie Simpson', number: '459-12-56'},
-    {id: 'id-2', name: 'Hermione Kline', number: '443-89-12'},
-    {id: 'id-3', name: 'Eden Clements', number: '645-17-79'},
-    {id: 'id-4', name: 'Annie Copeland', number: '227-91-26'},
-  ];
+const contactsInitialState = [  ];
 
 const contactsSlice = createSlice({
   // Имя слайса
   name: "contacts",
   // Начальное состояние редюсера слайса
-  initialState: contactsInitialState,
+  initialState: {data: contactsInitialState},
   // Объект редюсеров
   reducers: {
     addContacts: {
         reducer(state, action){
-            // state.push(action.payload)
-            return [action.payload, ...state]
+            const newData = state.data.map(item => item.name);
+            if(newData.includes(action.payload.name)) {
+                window.alert(`${action.payload.name} is already in contacts`);
+                return
+            }
+            state.data = [action.payload, ...state.data];
         },
         prepare({name, number}){
             return{
@@ -30,10 +31,17 @@ const contactsSlice = createSlice({
         }
     },
     deleteContacts(state, action) {
-        return state.filter(contact => contact.id !== action.payload)
+        state.data = state.data.filter(contact => contact.id !== action.payload);
     },
   },
 });
+
+const persistConfig = {
+    key: 'contacts',
+    storage,
+  };
+
+export const persistContactsReducer = persistReducer(persistConfig, contactsSlice.reducer);
 
 // Генераторы экшенов
 export const { addContacts, deleteContacts } = contactsSlice.actions;

@@ -1,19 +1,19 @@
-import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from "react-redux";
+import { getFilterContacts } from "redux/selectors";
+import { filterContacts } from "redux/filterReducer";
 import { Box } from "components/Box";
 import { LabelStyled, InputStyled } from "./Filter.styled";
 
-export const Filter = ({value, onChange}) => {
+export const Filter = () => {
+    const filter = useSelector(getFilterContacts);
+    const dispatch = useDispatch();
+    const handleFilterChange = (e) => dispatch(filterContacts(e.currentTarget.value))
     return (
         <Box mb={4}>
             <LabelStyled>
                 Find contacts by name
-                <InputStyled type="text" value={value} onChange={onChange}/>
+                <InputStyled type="text" value={filter} onChange={handleFilterChange}/>
             </LabelStyled>
         </Box>
     )
-};
-
-Filter.prototype = {
-    value: PropTypes.string,
-    onChange: PropTypes.func,
 };
