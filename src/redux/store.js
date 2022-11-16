@@ -8,11 +8,13 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
-import { persistPhonebookReducer } from "./phonebookReducer";
+import { persistContactsReducer } from "./contactsReducer";
+import { filterReducer } from "./filterReducer";
 
 export const store = configureStore({
   reducer: {
-    phonebook: persistPhonebookReducer,
+    contacts: persistContactsReducer,
+    filter: filterReducer,
   },
   middleware(getDefaultMiddleware) {
     return getDefaultMiddleware({
