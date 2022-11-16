@@ -2,23 +2,27 @@ import { createSlice, nanoid } from "@reduxjs/toolkit";
 import { persistReducer } from "redux-persist";
 import storage from 'redux-persist/lib/storage';
 
-const contactsInitialState = [  ];
+const contactsInitialState = [ ];
+const filterInitialState = '';
 
-const contactsSlice = createSlice({
+const phonebookSlice = createSlice({
   // Имя слайса
-  name: "contacts",
+  name: "phonebook",
   // Начальное состояние редюсера слайса
-  initialState: {data: contactsInitialState},
+  initialState: {
+    contacts: contactsInitialState,
+    filter: filterInitialState,
+  },
   // Объект редюсеров
   reducers: {
     addContacts: {
         reducer(state, action){
-            const newData = state.data.map(item => item.name);
+            const newData = state.contacts.map(item => item.name);
             if(newData.includes(action.payload.name)) {
                 window.alert(`${action.payload.name} is already in contacts`);
                 return
             }
-            state.data = [action.payload, ...state.data];
+            state.contacts = [action.payload, ...state.contacts];
         },
         prepare({name, number}){
             return{
@@ -31,8 +35,11 @@ const contactsSlice = createSlice({
         }
     },
     deleteContacts(state, action) {
-        state.data = state.data.filter(contact => contact.id !== action.payload);
+        state.contacts = state.contacts.filter(contact => contact.id !== action.payload);
     },
+    filterContacts(state, action) {
+        return action.payload
+   },
   },
 });
 
@@ -41,10 +48,9 @@ const persistConfig = {
     storage,
   };
 
-export const persistContactsReducer = persistReducer(persistConfig, contactsSlice.reducer);
+export const persistPhonebookReducer = persistReducer(persistConfig, phonebookSlice.reducer);
 
 // Генераторы экшенов
-export const { addContacts, deleteContacts } = contactsSlice.actions;
-// Редюсер слайса
-export const contactsReducer = contactsSlice.reducer;
+export const { addContacts, deleteContacts, filterContacts } = phonebookSlice.actions;
+
 

@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { addContacts } from 'redux/contactsReducer';
+import { addContacts } from 'redux/phonebookReducer';
 import { Box } from "../Box";
 import { LabelStyled, InputStyled, ButtonStyled } from "./Form.styled";
 
