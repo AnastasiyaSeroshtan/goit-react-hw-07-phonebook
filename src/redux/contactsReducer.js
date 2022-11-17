@@ -1,6 +1,6 @@
 // import { createSlice, nanoid } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
-import { getContacts } from "./operations";
+import { fetchContacts, addContact, deleteContact } from "./operations";
 
 
 const contactsSlice = createSlice({
@@ -15,20 +15,45 @@ const contactsSlice = createSlice({
   // Объект редюсеров
   extraReducers: {
        // Выполнится в момент старта HTTP-запроса
-       [getContacts.pending](state) {
+       [fetchContacts.pending](state) {
         state.isLoading = true;
        },
        // Выполнится если HTTP-запрос завершился успешно
-       [getContacts.fulfilled](state, action) {
+       [fetchContacts.fulfilled](state, action) {
         state.isLoading = false;
         state.error = null;
         state.items = action.payload;
        },
        // Выполнится если HTTP-запрос завершился с ошибкой
-       [getContacts.rejected](state, action) {
+       [fetchContacts.rejected](state, action) {
         state.isLoading = false;
         state.error = action.payload;
        },
+
+       [addContact.pending](state) {
+        state.isLoading = true;
+      },
+      [addContact.fulfilled](state, action) {
+        state.isLoading = false;
+        state.error = null;
+        state.items.push(action.payload);
+      },
+      [addContact.rejected](state, action) {
+        state.isLoading = false;
+        state.error = action.payload;
+      },
+      [deleteContact.pending](state) {
+        state.isLoading = true;
+      },
+      [deleteContact.fulfilled](state, action) {
+        state.isLoading = false;
+        state.error = null;
+        state.items = state.items.filter(contact => contact.id !== action.payload.id);
+      },
+      [deleteContact.rejected](state, action) {
+        state.isLoading = false;
+        state.error = action.payload;
+      },
   },
 });
 

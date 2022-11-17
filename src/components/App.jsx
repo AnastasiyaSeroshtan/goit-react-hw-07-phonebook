@@ -3,14 +3,14 @@ import { Form } from "./Form/Form";
 import { ContactsList } from "./ContactsList/ContactsList";
 import { Filter } from "./Filter/Filter";
 import { Header, Title } from "./Title.styled";
-import { getContacts } from "redux/operations";
+import { fetchContacts } from "redux/operations";
 import { useEffect } from "react";
 import { useDispatch} from "react-redux";
 
 export const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getContacts())
+    dispatch(fetchContacts())
 }, [dispatch]);
 
   return (
