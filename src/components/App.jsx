@@ -5,9 +5,12 @@ import { Filter } from "./Filter/Filter";
 import { Header, Title } from "./Title.styled";
 import { fetchContacts } from "redux/operations";
 import { useEffect } from "react";
-import { useDispatch} from "react-redux";
+import { useDispatch, useSelector} from "react-redux";
+import { selectError, selectIsLoading } from "redux/selectors";
 
 export const App = () => {
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchContacts())
@@ -20,6 +23,8 @@ export const App = () => {
       <Form />
       <Title>Contacts</Title>
       <Filter />
+      {isLoading && !error && <p>Is loading...</p>}
+      {error && <p>Oops! Something went wrong. Try again!</p>}
       <ContactsList />
     </Box>
   );

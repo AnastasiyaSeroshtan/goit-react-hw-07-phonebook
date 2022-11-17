@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import { useDispatch } from "react-redux";
-// import { deleteContacts } from "redux/contactsReducer";
 import { deleteContact } from 'redux/operations';
 import { ContactItem, ContactDescription, ContactButton } from "./ContactsItem.styled";
 
@@ -21,6 +20,6 @@ export const ContactsItem = ({name, phone, id}) => {
 
 ContactsItem.prototype = {
     name: PropTypes.string.isRequired,
-    number: PropTypes.string.isRequired,
+    phone: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
 };

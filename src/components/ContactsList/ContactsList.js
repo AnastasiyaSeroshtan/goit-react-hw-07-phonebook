@@ -1,15 +1,11 @@
 import { useSelector } from "react-redux";
 import { Box } from "../Box";
 import { ContactsItem } from "./ContactsItem/ContactsItem";
-// import { getContacts } from "redux/selectors";
-import { getContacts, getFilterContacts } from "redux/selectors";
-
-
+import { selectContacts, selectFilterContacts } from "redux/selectors";
 
 export const ContactsList = () => {
-    const contacts = useSelector(getContacts);
-  
-    const filter = useSelector(getFilterContacts);
+    const contacts = useSelector(selectContacts);
+    const filter = useSelector(selectFilterContacts);
 
     const getVisibleContacts = () => {
             const normalizedFilter = filter.toLocaleLowerCase();
